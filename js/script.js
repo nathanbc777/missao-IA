@@ -1,4 +1,4 @@
-import {respostas} from './respostas.js';
+import {respostas, nome} from './respostas.js';
 import {perguntas} from './perguntas.js';
 
 const caixaPrincipal = document.querySelector(".caixa-principal");
@@ -6,10 +6,15 @@ const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
 const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
+const botaoJogarNovamente = document.querySelector(".novemente-btn");
+const botaoIniciar = document.querySelector(".iniciar-btn");
+const telaInicial = document.querySelector(".tela-inicial");
 
 let atual = 0; 
 let perguntaAtual;
 let historiaFinal = "";
+
+botaoIniciar.addEventListener('click', iniciaJogo);
 
 function mostraPergunta() {
     if(atual >= perguntas.length){
@@ -49,7 +54,14 @@ function mostraResultado(){
 function respostaSelecionada(opcaoSelecionada) {
     const afirmacoes = aleatorio(opcaoSelecionada.afirmacao);
     historiaFinal += afirmacoes + " ";
-    atual++;
+    if (opcaoSelecionada.proximo !== undefined) {
+        atual = opcaoSelecionada.proxima;
+       else{
+            mostraResultado();
+            return;
+        }
+        mostraPergunta
+    }
     mostraPergunta();
 }
 
@@ -60,4 +72,10 @@ function jogaNovamente() {
     mostraPergunta();
 }
 
-mostraPergunta();
+function substituiNome () {
+    for(const pergunta of perguntas) {
+        pergunta.enunciado = pergunta.enunciado.replace(/voce/g, nome);
+    }
+}
+
+substituiNome();
